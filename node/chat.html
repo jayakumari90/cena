@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Chat</title>
+
+    </head>
+    <body>
+        <ul id="messages"></ul>
+
+        <input type="button" id="chat" value="Send Chat">
+        <input type="button" id="check" value="Check Chat">
+        <input type="button" id="block" value="Block">
+        <input type="button" id="read" value="update read">
+        <input type="button" id="active_users" value="Get Active Users">
+
+
+        <input type="button" id="getchat" value="Get User Thread">
+        <ul class="getChatThread"></ul>
+
+        <input type="button" id="getlastchat" value="Get message history"> 
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            $(function () {
+                // 198.74.62.156
+                var socket = io("http://cenaapp.xyz:2804", {query: "receiver_id=210&user_id=211"});
+
+                socket.on('thread_response', function(data){
+                        console.log(data);
+                    });
+
+                var chat_req =
+                        {
+                            "receiver_id": 71,
+                            "user_id": 74,
+                            "message": "hey hiii",
+                        };
+            
+                $('#chat').on('click', function () {
+                    socket.emit('send_message', chat_req);
+                });
+
+                 $('#getchat').on('click', function () {
+                    socket.emit('get_chats', chat_req);
+                });
+
+                        var chat_req123 =
+                        {
+                            "group_id": "74-71",
+                            "last_id": 0,
+                            "order": "ASC",
+                        };
+
+                  $('#getlastchat').on('click', function () {
+                    socket.emit('get_message_history', chat_req123);
+                });
+
+                  var chat_req =
+                        {
+                            "receiver_id": "83",
+                            "user_id": "85",
+                        };
+
+                  $('#read').on('click', function () {
+                    socket.emit('read_message_update', chat_req);
+                });
+
+              
+
+            });
+        </script>
+    </body>
+</html>

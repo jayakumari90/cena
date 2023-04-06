@@ -1,0 +1,4 @@
+public/uploads/
+.env
+node_modules/
+vendor
